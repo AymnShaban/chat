@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "709245310212",
+    "project_id": "chat-b58db",
+    "storage_bucket": "chat-b58db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709245310212:android:e24bb6f94423c7abc8ac51",
+        "android_client_info": {
+          "package_name": "com.aymnman.chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFRnXkoDGvIV46Q1Ojo9tx7odMTZQesyw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
