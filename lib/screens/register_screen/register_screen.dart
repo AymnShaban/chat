@@ -10,11 +10,12 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../widgets/hims_details/custom_hims_image.dart';
 import '../../widgets/show_snack_bar.dart';
-import '../../widgets/validatoins/email_validation.dart';
-import '../../widgets/validatoins/password_validation.dart';
+import '../../widgets/validations/email_validation.dart';
+import '../../widgets/validations/password_validation.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
+
   static String id = "RegisterPage";
 
   @override
@@ -22,13 +23,14 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  String? password1 ;
+  String? password1;
 
   bool isloadin = false;
 
   String? email;
 
   GlobalKey<FormState> formKey = GlobalKey();
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +43,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Form(
+            autovalidateMode: autoValidateMode,
             key: formKey,
             child: SingleChildScrollView(
               child: Column(
-
                 children: [
                   const SizedBox(height: 25),
                   himsImage(),
@@ -68,18 +70,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     autofillHints: const [AutofillHints.email],
                     labelText: "Email Address",
                     validator: emailValidation,
-                    onChange: (data){
-                      email= data;
+                    onChange: (data) {
+                      email = data;
                     },
                     hintText: "email",
                   ),
                   const SizedBox(height: 10),
                   const Row(
                     children: [
-                      Text("Password requirements \n- At least 8 characters long \n- Contains at least one uppercase letter \n- Contains at least one lowercase letter \n- Contains at least one number \n- Contains at least one special character", style: TextStyle(
-                        color: Colors.white,
-
-                      ),),
+                      Text(
+                        "Password requirements \n- At least 8 characters long \n- Contains at least one uppercase letter \n- Contains at least one lowercase letter \n- Contains at least one number \n- Contains at least one special character",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -87,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     autofillHints: const [AutofillHints.password],
                     labelText: "Password",
                     validator: passwordValidation,
-                    onChange: (data){
+                    onChange: (data) {
                       password1 = data;
                     },
                     hintText: "Password",
@@ -98,33 +100,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       isloadin = true;
                       setState(() {});
                       if (formKey.currentState!.validate()) {
-                        try { await registerUser();
-                        showSnackBar(context, "Success");
-                        Navigator.pushNamed(context, LoginScreen.id);
-                        isloadin = false;
-                        setState(() {});
-                        }
-                        on FirebaseAuthException   catch(e) {
-                          if (e.code == 'weak-password'){
+                        try {
+                          await registerUser();
+                          showSnackBar(context, "Success");
+                          Navigator.pushNamed(context, LoginScreen.id);
+                          isloadin = false;
+                          setState(() {});
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
                             showSnackBar(context, "Weak password");
                           } else if (e.code == 'email-already-in-use') {
                             showSnackBar(context, "Email already in use");
                             isloadin = false;
-                            setState(() {
-                            });
-                          }} }
-                      else {
+                            setState(() {});
+                          }
+                        }
+                      } else {
                         showSnackBar(context, "There is a problem");
-                        isloadin= false;
-                        setState(() {
-                        });
+                        isloadin = false;
+                        autoValidateMode = AutovalidateMode.always;
+                        setState(() {});
                       }
                     },
                     text: "register now",
                   ),
                   const SizedBox(height: 6),
-                  textAndClickRow(text: "If you have an account", click: "Click here", context: context),
-
+                  textAndClickRow(
+                    text: "If you have an account",
+                    click: "Click here",
+                    context: context,
+                  ),
                 ],
               ),
             ),
@@ -132,11 +137,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
-
   }
 
   Future<void> registerUser() async {
-    UserCredential user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email!, password: password1!);
+    UserCredential user = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email!, password: password1!);
   }
 }
-
