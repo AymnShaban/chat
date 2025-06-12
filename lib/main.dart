@@ -1,4 +1,5 @@
 import 'package:chat/cubits/login_cubit/login_cubit.dart';
+import 'package:chat/cubits/register_cubit/register_cubit.dart';
 import 'package:chat/screens/home_layout.dart';
 import 'package:chat/screens/login_screen.dart';
 import 'package:chat/screens/perefrences.dart';
@@ -11,9 +12,7 @@ import 'screens/chat_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -23,8 +22,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of y`our application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LoginCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LoginCubit>(create: (context) => LoginCubit()),
+        BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
           RegisterScreen.id: (context) => RegisterScreen(),
           HimsHome.id: (context) => const HimsHome(),
           ChatScreen.id: (context) => ChatScreen(),
-          PreferencesScreen.id: (context) => const PreferencesScreen()
+          PreferencesScreen.id: (context) => const PreferencesScreen(),
         },
         initialRoute: LoginScreen.id,
       ),
