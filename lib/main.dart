@@ -1,5 +1,4 @@
 import 'package:chat/cubits/chat_cubit/chat_cubit.dart';
-import 'package:chat/screens/home_layout.dart';
 import 'package:chat/screens/login_screen.dart';
 import 'package:chat/screens/register_screen/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
         routes: {
           LoginScreen.id: (context) => LoginScreen(),
           RegisterScreen.id: (context) => RegisterScreen(),
-          HimsHome.id: (context) => const HimsHome(),
+
           ChatScreen.id: (context) => ChatScreen(),
 
         },
