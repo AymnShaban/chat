@@ -1,3 +1,4 @@
+import 'package:chat/blocs/auth_bloc/auth_bloc.dart';
 import 'package:chat/screens/login_screen.dart';
 import 'package:chat/widgets/constants.dart';
 import 'package:chat/widgets/custom_button.dart';
@@ -7,7 +8,6 @@ import 'package:chat/widgets/text_and_click_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import '../../cubits/auth_cubit/auth_cubit.dart';
 import '../../widgets/hims_details/custom_hims_image.dart';
 import '../../widgets/show_snack_bar.dart';
 import '../../widgets/validations/email_validation.dart';
@@ -24,9 +24,11 @@ class RegisterScreen extends StatelessWidget {
   GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
 
+  RegisterScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is RegisterLoadingState) {
           isloadin = true;
@@ -104,9 +106,9 @@ class RegisterScreen extends StatelessWidget {
                       CustomButton(
                         onTap: () async {
                           if (formKey.currentState!.validate()) {
-                            BlocProvider.of<AuthCubit>(
+                            BlocProvider.of<AuthBloc>(
                               context,
-                            ).registerUser(email: email!, password: password!);
+                            ).add(RegisterEvent(email: email!, password: password!));
                           } else {
                             autoValidateMode = AutovalidateMode.always;
                           }
