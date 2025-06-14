@@ -1,3 +1,4 @@
+import 'package:chat/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat/cubits/login_cubit/login_cubit.dart';
 import 'package:chat/widgets/constants.dart';
 import 'package:chat/widgets/custom_button.dart';
@@ -31,6 +32,7 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginLoadingState) {
           isloadin = true;
         } else if (state is LoginSuccessState) {
+          BlocProvider.of<ChatCubit>(context).getMessage();
           Navigator.pushNamed(context, ChatScreen.id, arguments: email);
           showSnackBar(context, 'Enjoy your chatting ');
           isloadin = false;
@@ -119,6 +121,4 @@ class LoginScreen extends StatelessWidget {
           ),
     );
   }
-
-
 }

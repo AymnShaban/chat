@@ -5,11 +5,9 @@ import 'package:chat/widgets/custom_button.dart';
 import 'package:chat/widgets/custom_text_form_field.dart';
 import 'package:chat/widgets/hims_details/hims_text.dart';
 import 'package:chat/widgets/text_and_click_row.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
 import '../../widgets/hims_details/custom_hims_image.dart';
 import '../../widgets/show_snack_bar.dart';
 import '../../widgets/validations/email_validation.dart';
@@ -131,6 +129,4 @@ class RegisterScreen extends StatelessWidget {
       },
     );
   }
-
-
 }
