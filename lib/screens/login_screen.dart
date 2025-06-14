@@ -1,5 +1,5 @@
+import 'package:chat/cubits/auth_cubit/auth_cubit.dart';
 import 'package:chat/cubits/chat_cubit/chat_cubit.dart';
-import 'package:chat/cubits/login_cubit/login_cubit.dart';
 import 'package:chat/widgets/constants.dart';
 import 'package:chat/widgets/custom_button.dart';
 import 'package:chat/widgets/hims_details/custom_hims_image.dart';
@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
+    return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is LoginLoadingState) {
           isloadin = true;
@@ -96,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                         CustomButton(
                           onTap: () async {
                             if (formKey.currentState!.validate()) {
-                              BlocProvider.of<LoginCubit>(
+                              BlocProvider.of<AuthCubit>(
                                 context,
                               ).userSignIn(email: email!, password: password!);
                             } else {
